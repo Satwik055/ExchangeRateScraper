@@ -1,10 +1,18 @@
+import sys
 import time
-
+from loguru import logger
 import schedule
-from app.rate_scraper_module import scrape_exchange_rate
+from rate_scraper_module import *
 from currency import *
 from supabase_module import *
 from utils import *
+from logtail import LogtailHandler
+import requests
+
+handler = LogtailHandler(source_token="6SVzxgfxk53h1bNkj1gHkgps", host="s1349851.eu-nbg-2.betterstackdata.com")
+logger.remove(0)
+logger.add(sys.stderr, format="{time} | {level} | {message}")
+logger.add(handler, format="{message}", level="INFO", backtrace=False, diagnose=False)
 
 SUPABASE_URL = 'https://fqsnwalptczelvhiwohd.supabase.co'
 SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxc253YWxwdGN6ZWx2aGl3b2hkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2NzI4MTYsImV4cCI6MjA1NDI0ODgxNn0.TzD0KcPnEJz0DvLYxUmK68PeDuNy47sU0jRlyhAls-I'
@@ -22,14 +30,19 @@ def fetch_and_update_rates():
         update_tti_rates(supabase, str(usd_rate), str(eur_rate), str(cad_rate), str(aud_rate), str(gbp_rate))
     except Exception as e:
         print(f"Failed to update rates: {str(e)}")
-        # logger.error(f"Failed to update rates: {str(e)}")
+        logger.error(f"Failed to update rates: {str(e)}")
 
 
 schedule.every(30).minutes.do(fetch_and_update_rates)
 
+
+def sendHeartbeat():
+    heartbeat_url = "https://uptime.betterstack.com/api/v1/heartbeat/NQigbZ58SrhVcn5x4RZQ5t6u"
+    requests.get(heartbeat_url)
+
+
 if __name__ == "__main__":
     while True:
-        # logger.info("Heartbeat")
-        print("Heartbeat")
+        sendHeartbeat()
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(30)
