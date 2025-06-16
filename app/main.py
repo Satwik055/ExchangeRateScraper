@@ -1,5 +1,7 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import time
+
+import schedule
+from app.rate_scraper_module import scrape_exchange_rate
 from currency import *
 from supabase_module import *
 from utils import *
@@ -19,13 +21,15 @@ def fetch_and_update_rates():
 
         update_tti_rates(supabase, str(usd_rate), str(eur_rate), str(cad_rate), str(aud_rate), str(gbp_rate))
     except Exception as e:
-        logger.error(f"Failed to update rates: {str(e)}")
+        print(f"Failed to update rates: {str(e)}")
+        # logger.error(f"Failed to update rates: {str(e)}")
 
 
-schedule.every(10).seconds.do(fetch_and_update_rates)
+schedule.every(30).minutes.do(fetch_and_update_rates)
 
 if __name__ == "__main__":
     while True:
-        logger.info("Heartbeat")
+        # logger.info("Heartbeat")
+        print("Heartbeat")
         schedule.run_pending()
         time.sleep(1)
