@@ -3,21 +3,19 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from enum import Enum
 from currency import *
-import time
-import logging
 
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-handler.setFormatter(formatter)
-
-logger = logging.getLogger("rate_scraper_module_logger")
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
-
+# formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+#
+# handler = logging.StreamHandler()
+# handler.setLevel(logging.INFO)
+# handler.setFormatter(formatter)
+#
+# logger = logging.getLogger("rate_scraper_module_logger")
+# logger.setLevel(logging.INFO)
+# logger.addHandler(handler)
+#
 
 def scrape_exchange_rate(currency: Currency) -> float:
     chrome_options = Options()
@@ -40,7 +38,7 @@ def scrape_exchange_rate(currency: Currency) -> float:
         rate_text = rate_element.text.strip()
         try:
             rate = round(float(rate_text.replace(",", "")), 2)
-            logger.info(f"Successfully scraped rate for {currency}: {rate} ")
+            # logger.info(f"Successfully scraped rate for {currency}: {rate} ")
             return rate
 
         except ValueError as e:

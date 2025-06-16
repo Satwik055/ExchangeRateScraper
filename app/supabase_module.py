@@ -1,30 +1,25 @@
-import time
-from typing import Dict
-import requests
 from supabase import *
-import schedule
-import logging
-from rate_scraper_module import *
 
-formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-handler.setFormatter(formatter)
-
-logger = logging.getLogger("my_logger")
-logger.setLevel(logging.INFO)
-logger.addHandler(handler)
+# formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+#
+# handler = logging.StreamHandler()
+# handler.setLevel(logging.INFO)
+# handler.setFormatter(formatter)
+#
+# logger = logging.getLogger("my_logger")
+# logger.setLevel(logging.INFO)
+# logger.addHandler(handler)
+#
 
 def update_tti_rates(
         supabase: Client,
-        usd_rate:str,
-        eur_rate:str,
-        cad_rate:str,
-        aud_rate:str,
-        gbp_rate:str
+        usd_rate: str,
+        eur_rate: str,
+        cad_rate: str,
+        aud_rate: str,
+        gbp_rate: str
 ):
-
     rates = {
         'EUR': eur_rate,
         'GBP': gbp_rate,
@@ -38,14 +33,12 @@ def update_tti_rates(
         try:
             response = supabase.table('exchange_rate').update({'tti': new_price}).eq('currency_name', row_id).execute()
             if response.data:
-                logger.info(f"Successfully updated {row_id} with new price {new_price}")
+                print(f"Successfully updated {row_id} with new price {new_price}")
+                # logger.info(f"Successfully updated {row_id} with new price {new_price}")
             else:
-                logger.error(f"No rows were updated for row {row_id}. Check if the row exists.")
+                print(f"No rows were updated for row {row_id}. Check if the row exists.")
+                # logger.error(f"No rows were updated for row {row_id}. Check if the row exists.")
 
         except Exception as e:
-            logger.error(f"Error updating row {row_id}: {str(e)}")
-
-
-
-
-
+            print(f"Successfully updated {row_id} with new price {new_price}")
+            # logger.error(f"Error updating row {row_id}: {str(e)}")
