@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Currency(Enum):
     USD = "https://www.google.com/finance/quote/USD-INR"
     GBP = "https://www.google.com/finance/quote/GBP-INR"

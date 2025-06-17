@@ -1,8 +1,7 @@
 import sys
 import time
-from loguru import logger
 import schedule
-from rate_scraper_module import *
+from scraper_module import *
 from currency import *
 from supabase_module import *
 from utils import *
@@ -29,7 +28,6 @@ def fetch_and_update_rates():
 
         update_tti_rates(supabase, str(usd_rate), str(eur_rate), str(cad_rate), str(aud_rate), str(gbp_rate))
     except Exception as e:
-        print(f"Failed to update rates: {str(e)}")
         logger.error(f"Failed to update rates: {str(e)}")
 
 
@@ -44,5 +42,6 @@ def sendHeartbeat():
 if __name__ == "__main__":
     while True:
         sendHeartbeat()
+        print("Heartbeat")
         schedule.run_pending()
         time.sleep(30)
