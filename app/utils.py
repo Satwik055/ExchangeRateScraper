@@ -1,12 +1,5 @@
-def add_commission(number: float) -> float:
-    """Adds a standard commission of 1 to a numeric string and returns the result as a string.
-        Examples:
-            >>> add_commission(100)
-            '101.0'
-            >>> add_commission(68.9879)
-            '69.9879'
-        """
+def add_commission(commission: float, amount: float) -> float:
     try:
-        return number + 1
+        return commission+amount
     except ValueError:
-        raise ValueError("Input must be a numeric string")
+        raise ValueError("Input must be a float")

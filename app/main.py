@@ -20,11 +20,11 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def fetch_and_update_rates():
     try:
-        usd_rate = add_commission(scrape_exchange_rate(Currency.USD))
-        aud_rate = add_commission(scrape_exchange_rate(Currency.AUD))
-        cad_rate = add_commission(scrape_exchange_rate(Currency.CAD))
-        gbp_rate = add_commission(scrape_exchange_rate(Currency.GBP))
-        eur_rate = add_commission(scrape_exchange_rate(Currency.EUR))
+        usd_rate = add_commission(1, scrape_exchange_rate(Currency.USD))
+        aud_rate = add_commission(0.5, scrape_exchange_rate(Currency.AUD))
+        cad_rate = add_commission(0.5, scrape_exchange_rate(Currency.CAD))
+        gbp_rate = add_commission(1, scrape_exchange_rate(Currency.GBP))
+        eur_rate = add_commission(1, scrape_exchange_rate(Currency.EUR))
 
         update_tti_rates(supabase, str(usd_rate), str(eur_rate), str(cad_rate), str(aud_rate), str(gbp_rate))
     except Exception as e:
@@ -32,6 +32,7 @@ def fetch_and_update_rates():
 
 
 schedule.every(30).minutes.do(fetch_and_update_rates)
+
 
 
 def sendHeartbeat():
